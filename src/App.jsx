@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer';
+import LotesAdmin from './components/LotesAdmin';
 
 // Páginas
 import Inicio from './pages/inicio/Inicio';
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/supervisor" element={<Supervisor />} />
         <Route path="/ayuda" element={<Ayuda />} />
         <Route path="/reportes" element={<Reportes />} />
+        <Route path="/admin" element={<LotesAdmin />} />
       </Routes>
       <Footer />
     </Router>

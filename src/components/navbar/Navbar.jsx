@@ -35,6 +35,11 @@ export default function Navbar() {
           Reportes
           </NavLink>
         </li>
+        <li>
+          <NavLink to="/admin" className={({isActive}) => (isActive ? 'active' : '')}>
+          Administración CRUD
+          </NavLink>
+          </li>
       </ul>
     </nav>
   );
