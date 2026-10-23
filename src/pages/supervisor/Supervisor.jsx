@@ -1,112 +1,105 @@
-import { useState } from 'react';
-import './Supervisor.css';
+import React, { useState } from 'react';
+import styles from './Supervisor.module.css';
 
-export default function Supervisor() {
-  const [lote, setLote] = useState('');
-  const [linea, setLinea] = useState('');
 
-  const [errorLote, setErrorLote] = useState('');
-  const [errorLinea, setErrorLinea] = useState('');
+const BASE_DATOS_LOTES = {
+  'LOT-2026-001': {
+    codigo: 'LOT-2026-001',
+    estado: 'Rechazado',
+    resultado: 'Exceso de humedad y gramaje fuera de norma (142 g/m²).'
+  },
+  'LOT-2026-002': {
+    codigo: 'LOT-2026-002',
+    estado: 'Aprobado',
+    resultado: 'Dentro de los parámetros establecidos.'
+  },
+  'LOT-2026-003': {
+    codigo: 'LOT-2026-003',
+    estado: 'Pendiente',
+    resultado: 'En espera de prueba de resistencia y solidez de color en laboratorio.'
+  },
+  'LOT-2026-004': {
+    codigo: 'LOT-2026-004',
+    estado: 'Aprobado con Observación',
+    resultado: 'Tolerancia al límite (+2.8cm), liberado para corte y confección.'
+  },
+  'LOT-2026-005': {
+    codigo: 'LOT-2026-005',
+    estado: 'Rechazado',
+    resultado: 'Defecto en tejido Jacquard (3 fallas por cada 100 metros).'
+  }
+};
 
-  const [resultado, setResultado] = useState(null);
+const Supervisor = () => {
+  const [codigo, setCodigo] = useState('LOT-2026-002');
+  const [linea, setLinea] = useState('Línea 3');
+  const [resultado, setResultado] = useState(BASE_DATOS_LOTES['LOT-2026-002']);
 
-  const handleSubmit = (e) => {
+  const handleBuscar = (e) => {
     e.preventDefault();
+    const codigoLote = codigo.trim().toUpperCase();
 
-    setErrorLote('');
-    setErrorLinea('');
-    let formularioValido = true;
-
-    // Validación Código de Lote
-    if (lote === '') {
-      setErrorLote('Debe ingresar el código del lote');
-      formularioValido = false;
-    } else if (!lote.toUpperCase().startsWith('LOT-')) {
-      setErrorLote('El código debe comenzar con LOT-');
-      formularioValido = false;
-    }
-
-    // Validación Línea
-    if (linea === '') {
-      setErrorLinea('Debe seleccionar una línea de producción');
-      formularioValido = false;
-    }
-
-    if (formularioValido) {
-      const nombresLinea = {
-        linea1: 'Línea 1',
-        linea2: 'Línea 2',
-        linea3: 'Línea 3',
-      };
-
+    if (BASE_DATOS_LOTES[codigoLote]) {
       setResultado({
-        codigo: lote,
-        lineaTexto: nombresLinea[linea] || linea,
+        ...BASE_DATOS_LOTES[codigoLote],
+        linea: linea
       });
     } else {
-      setResultado(null);
+      setResultado({
+        codigo: codigoLote || 'N/A',
+        linea: linea,
+        estado: 'No Encontrado',
+        resultado: 'El código ingresado no registra mediciones de calidad en la base de datos.'
+      });
     }
   };
 
   return (
-    <main className="supervisor-main">
-      <h1>Supervisor de Línea</h1>
+    <div className={styles.container}>
+      <h2>Supervisor de Línea</h2>
       <p>Consulta de resultados de calidad de lotes</p>
 
-      <section className="sup-consulta">
-        <h2>Buscar lote</h2>
-
-        <form onSubmit={handleSubmit}>
-          <div className="sup-campo">
-            <label htmlFor="sup-lote">Código del lote:</label>
-            <input
-              type="text"
-              id="sup-lote"
-              placeholder="Ej: LOT-001"
-              value={lote}
-              onChange={(e) => setLote(e.target.value)}
+      <div className={styles.cardForm}>
+        <h3>Buscar lote</h3>
+        <form onSubmit={handleBuscar}>
+          <div className={styles.formGroup}>
+            <label>Código del lote:</label>
+            <input 
+              type="text" 
+              value={codigo} 
+              onChange={(e) => setCodigo(e.target.value)} 
+              placeholder="Ej: LOT-2026-001"
+              required 
             />
-            {errorLote && <small id="sup-error-lote">{errorLote}</small>}
           </div>
 
-          <div className="sup-campo">
-            <label htmlFor="sup-linea">Línea de producción:</label>
-            <select
-              id="sup-linea"
-              value={linea}
-              onChange={(e) => setLinea(e.target.value)}
-            >
-              <option value="">Seleccione una línea</option>
-              <option value="linea1">Línea 1</option>
-              <option value="linea2">Línea 2</option>
-              <option value="linea3">Línea 3</option>
+          <div className={styles.formGroup}>
+            <label>Línea de producción:</label>
+            <select value={linea} onChange={(e) => setLinea(e.target.value)}>
+              <option value="Línea 1">Línea 1</option>
+              <option value="Línea 2">Línea 2</option>
+              <option value="Línea 3">Línea 3</option>
+              <option value="Línea 4">Línea 4</option>
             </select>
-            {errorLinea && <small id="sup-error-linea">{errorLinea}</small>}
           </div>
 
-          <button type="submit" id="sup-boton-buscar">
+          <button type="submit" className={styles.btnBuscar}>
             Buscar lote
           </button>
         </form>
-      </section>
+      </div>
 
       {resultado && (
-        <section className="sup-resultado">
-          <h2>Resultado del lote</h2>
-          <p>
-            <strong>Código:</strong> {resultado.codigo}
-          </p>
-          <p>
-            <strong>Línea:</strong> {resultado.lineaTexto}
-          </p>
-          <p>
-            <strong>Estado de calidad:</strong> Aprobado
-          </p>
-          <p>
-            <strong>Resultado:</strong> Dentro de los parámetros establecidos
-          </p>
-        </section>
+        <div className={styles.cardResultado}>
+          <h3>Resultado del lote</h3>
+          <p><strong>Código:</strong> {resultado.codigo}</p>
+          <p><strong>Línea:</strong> {resultado.linea || linea}</p>
+          <p><strong>Estado de calidad:</strong> {resultado.estado}</p>
+          <p><strong>Resultado:</strong> {resultado.resultado}</p>
+        </div>
       )}
-    </main>
+    </div>
   );
-}
+};
+
+export default Supervisor;

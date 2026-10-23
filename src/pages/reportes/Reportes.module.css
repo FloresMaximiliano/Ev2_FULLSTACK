@@ -1,0 +1,77 @@
+.container {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.kpiCard {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-top: 4px solid #ccc;
+}
+
+.exito { border-color: #2e7d32; }
+.error { border-color: #d32f2f; }
+.alerta { border-color: #ed6c02; }
+.info { border-color: #0288d1; }
+
+.kpiCard h3 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.kpiTitulo {
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.kpiDetalle {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.seccionTabla {
+  margin-top: 2rem;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.tabla th, .tabla td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.tabla th {
+  background-color: #f4f4f4;
+}
+
+.badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.rechazado, .noconforme {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.corregido {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}

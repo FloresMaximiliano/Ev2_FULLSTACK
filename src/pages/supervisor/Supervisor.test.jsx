@@ -9,11 +9,11 @@ describe('Componente Supervisor', () => {
     const inputLote = screen.getByLabelText(/Código del lote:/i);
     const botonBuscar = screen.getByRole('button', { name: /Buscar lote/i });
 
-    // Ingresar un lote inválido
+    
     fireEvent.change(inputLote, { target: { value: '12345' } });
     fireEvent.click(botonBuscar);
 
-    // Verificar que aparece el mensaje de error
+    
     expect(screen.getByText('El código debe comenzar con LOT-')).toBeInTheDocument();
   });
 
@@ -24,12 +24,12 @@ describe('Componente Supervisor', () => {
     const selectLinea = screen.getByLabelText(/Línea de producción:/i);
     const botonBuscar = screen.getByRole('button', { name: /Buscar lote/i });
 
-    // Ingresar datos válidos
+    
     fireEvent.change(inputLote, { target: { value: 'LOT-001' } });
     fireEvent.change(selectLinea, { target: { value: 'linea1' } });
     fireEvent.click(botonBuscar);
 
-    // Verificar que el bloque de resultado aparece con los datos ingresados
+    
     expect(screen.getByText('Resultado del lote')).toBeInTheDocument();
     expect(screen.getByText('LOT-001')).toBeInTheDocument();
   });

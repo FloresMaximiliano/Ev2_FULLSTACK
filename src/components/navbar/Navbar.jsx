@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import logo from '../../assets/Logo.jpg'; // Sube dos niveles hasta src/assets/
+import logo from '../../assets/Logo.jpg'; 
 import './Navbar.css';
 
 export default function Navbar() {
@@ -28,6 +28,11 @@ export default function Navbar() {
         <li>
           <NavLink to="/ayuda" className={({ isActive }) => (isActive ? 'active' : '')}>
             Ayuda
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/reportes" className={({isActive}) => (isActive ? 'active' : '')}>
+          Reportes
           </NavLink>
         </li>
       </ul>
